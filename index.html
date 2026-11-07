@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KINETIC // Редуктор юнит-экономики Wildberries</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #07080a;
+      --panel: #0e1014;
+      --panel-hover: #13161c;
+      --border: rgba(255, 255, 255, 0.07);
+      --border-active: rgba(255, 255, 255, 0.2);
+      --accent: #10b981;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: #e4e4e7;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    .mono-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-feature-settings: "tnum" 1, "zero" 1;
+    }
+
+    /* jakubkrehel standard: строгий transition, никогда all */
+    .tactile {
+      transition-property: transform, opacity, background-color, border-color;
+      transition-duration: 180ms;
+      transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+    }
+    .tactile:active {
+      transform: scale(0.975);
+    }
+
+    /* Кастомные кинетические слайдеры */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #181b22;
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: #f4f4f5;
+      cursor: ew-resize;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.8);
+      border: 1px solid #000;
+      transition: transform 120ms cubic-bezier(0.2, 0, 0, 1);
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Тонкая сетка на фоне без мыла */
+    .blueprint-grid {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .bevel-box {
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05), 0 20px 40px -15px rgba(0,0,0,0.7);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between blueprint-grid selection:bg-emerald-500/20 selection:text-emerald-300">
+
+  <!-- ШАПКА: Оптический монохромный бренд-знак (kaankiziltug craft) -->
+  <header class="border-b border-[var(--border)] bg-[#07080a]/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+      
+      <!-- Brand Lockup -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-8 h-8 rounded-lg bg-neutral-900 border border-[var(--border)] flex items-center justify-center text-white bevel-box">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M4 4h16v16H4z" stroke-dasharray="2 2"/>
+            <path d="M4 12h16M12 4v16" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="3" fill="#10b981" stroke="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-xs font-black tracking-[0.2em] uppercase text-neutral-100">KINETIC</span>
+            <span class="text-[10px] mono-num text-neutral-500 font-semibold tracking-wider">UNIT // v3.0</span>
+          </div>
+          <p class="text-[10px] text-neutral-500 font-medium">Стресс-тестирование маржинальности Wildberries</p>
+        </div>
+      </div>
+
+      <!-- Action items -->
+      <div class="flex items-center gap-3">
+        <button id="copyBtn" onclick="exportData()" class="tactile flex items-center gap-2 px-3 py-1.5 text-xs font-semibold mono-num text-neutral-300 bg-neutral-900 border border-[var(--border)] rounded-md hover:border-neutral-700 bevel-box">
+          <span id="copyIcon">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </span>
+          <span id="copyText">Экспорт ведомости</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ЦЕНТРАЛЬНЫЙ СИНТЕТИЧЕСКИЙ РЕАКТОР -->
+  <main class="max-w-6xl mx-auto px-5 py-8 w-full flex-grow">
+
+    <!-- ВЕРХНИЙ БЛОК: ИНТЕРАКТИВНЫЙ РАСПРЕДЕЛИТЕЛЬ ВЫРУЧКИ (FLOW ENGINE) -->
+    <div class="bg-[var(--panel)] border border-[var(--border)] rounded-xl p-6 bevel-box mb-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-[11px] font-mono mono-num text-emerald-400 uppercase tracking-widest block mb-1">Денежный поток единицы</span>
+          <h2 class="text-3xl font-extrabold text-neutral-100 tracking-tight" id="heroPriceDisplay">1 850 ₽</h2>
+          <p class="text-xs text-neutral-500 mt-1">Каждый рубль выручки в реальном времени распределяется по системе</p>
+        </div>
+
+        <div class="flex items-center gap-6 border-t md:border-t-0 pt-3 md:pt-0 border-[var(--border)]">
+          <div>
+            <span class="text-[10px] text-neutral-500 uppercase font-mono block">Чистая прибыль</span>
+            <span id="heroNetDisplay" class="text-2xl font-black mono-num text-emerald-400">0 ₽</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-neutral-500 uppercase font-mono block">Маржинальность</span>
+            <span id="heroMarginDisplay" class="text-2xl font-black mono-num text-emerald-400">0%</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-neutral-500 uppercase font-mono block">Точка 0 (Мин. цена)</span>
+            <span id="heroBreakEvenDisplay" class="text-2xl font-black mono-num text-neutral-400">0 ₽</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кинетический визуализатор долей (oso95 continuous physics) -->
+      <div class="space-y-2">
+        <div class="h-5 w-full bg-[#050608] rounded-md border border-[var(--border)] p-0.5 flex overflow-hidden">
+          <div id="barCogs" title="Себестоимость" class="h-full bg-zinc-300 rounded-sm transition-all duration-150" style="width: 25%"></div>
+          <div id="barWb" title="Комиссия WB" class="h-full bg-purple-600 rounded-sm transition-all duration-150 ml-0.5" style="width: 23%"></div>
+          <div id="barLog" title="Логистика с возвратами" class="h-full bg-blue-500 rounded-sm transition-all duration-150 ml-0.5" style="width: 15%"></div>
+          <div id="barAds" title="Реклама (ДРР)" class="h-full bg-amber-500 rounded-sm transition-all duration-150 ml-0.5" style="width: 10%"></div>
+          <div id="barTax" title="Налог УСН" class="h-full bg-neutral-600 rounded-sm transition-all duration-150 ml-0.5" style="width: 6%"></div>
+          <div id="barProfit" title="Чистый остаток" class="h-full bg-emerald-500 rounded-sm transition-all duration-150 ml-0.5 flex-grow"></div>
+        </div>
+
+        <div class="flex flex-wrap justify-between text-[11px] font-mono mono-num text-neutral-400 pt-1">
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-zinc-300"></span>Себестоимость: <strong id="tagCogs" class="text-white">0 ₽</strong></span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-purple-600"></span>WB Комиссия: <strong id="tagWb" class="text-white">0 ₽</strong></span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-blue-500"></span>Логистика: <strong id="tagLog" class="text-white">0 ₽</strong></span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-amber-500"></span>Реклама: <strong id="tagAds" class="text-white">0 ₽</strong></span>
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-neutral-600"></span>Налог: <strong id="tagTax" class="text-white">0 ₽</strong></span>
+          <span class="flex items-center gap-1.5 text-emerald-400 font-bold"><span class="w-2 h-2 rounded-sm bg-emerald-500"></span>Остаток: <strong id="tagNet" class="text-emerald-400">0 ₽</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ОСНОВНАЯ СЕТКА: ВВОД СТРОГИХ ПАРАМЕТРОВ -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- ЛЕВАЯ ЧАСТЬ: ИНТЕРАКТИВНЫЕ СКРАББЕРЫ И СЛАЙДЕРЫ -->
+      <div class="lg:col-span-6 space-y-5">
+        <div class="bg-[var(--panel)] border border-[var(--border)] rounded-xl p-6 bevel-box space-y-6">
+          <div class="text-xs font-bold uppercase tracking-wider text-neutral-400 pb-3 border-b border-[var(--border)] flex justify-between items-center">
+            <span>Спецификация партии и условий</span>
+            <span class="text-[10px] text-neutral-500 font-mono">РЕАКТИВНЫЙ РАСЧЕТ</span>
+          </div>
+
+          <!-- Скраббер цены -->
+          <div>
+            <div class="flex justify-between items-center text-xs mb-2">
+              <span class="font-semibold text-neutral-300">Розничная цена продажи на WB</span>
+              <span id="priceValueBadge" class="mono-num text-sm font-bold text-neutral-100 bg-neutral-900 border border-[var(--border)] px-2 py-0.5 rounded">1 850 ₽</span>
+            </div>
+            <input id="priceInput" type="range" min="400" max="8000" step="50" value="1850" oninput="syncFromSlider('price', this.value)" class="w-full">
+          </div>
+
+          <!-- Скраббер выкупа (Смерть или жизнь селлера) -->
+          <div>
+            <div class="flex justify-between items-center text-xs mb-2">
+              <span class="font-semibold text-neutral-300">Процент выкупа (с учетом возвратов)</span>
+              <span id="buyoutValueBadge" class="mono-num text-sm font-bold text-neutral-100 bg-neutral-900 border border-[var(--border)] px-2 py-0.5 rounded">82%</span>
+            </div>
+            <input id="buyoutInput" type="range" min="20" max="100" step="1" value="82" oninput="syncFromSlider('buyout', this.value)" class="w-full">
+            <span class="text-[10px] text-neutral-500 mt-1 block">Каждый отказ добавляет стоимость обратной покатушки (+50 ₽)</span>
+          </div>
+
+          <!-- Сетка полей -->
+          <div class="grid grid-cols-2 gap-4 pt-2 border-t border-[var(--border)]">
+            <div>
+              <label class="block text-[11px] font-medium text-neutral-400 mb-1">Себестоимость партии (₽)</label>
+              <input id="cogsInput" type="number" value="480" oninput="runEngine()" class="w-full bg-[#050608] border border-[var(--border)] focus:border-neutral-500 rounded-lg px-3 py-2 text-sm mono-num text-neutral-100 outline-none transition-colors">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-neutral-400 mb-1">Комиссия категории (%)</label>
+              <input id="commInput" type="number" value="23" oninput="runEngine()" class="w-full bg-[#050608] border border-[var(--border)] focus:border-neutral-500 rounded-lg px-3 py-2 text-sm mono-num text-neutral-100 outline-none transition-colors">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-neutral-400 mb-1">Базовая логистика (₽)</label>
+              <input id="logInput" type="number" value="85" oninput="runEngine()" class="w-full bg-[#050608] border border-[var(--border)] focus:border-neutral-500 rounded-lg px-3 py-2 text-sm mono-num text-neutral-100 outline-none transition-colors">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-neutral-400 mb-1">Реклама ДРР (%)</label>
+              <input id="adsInput" type="number" value="12" oninput="runEngine()" class="w-full bg-[#050608] border border-[var(--border)] focus:border-neutral-500 rounded-lg px-3 py-2 text-sm mono-num text-neutral-100 outline-none transition-colors">
+            </div>
+          </div>
+        </div>
+
+        <!-- МОНЕТИЗАЦИОННЫЙ CPA-БЛОК (ТВОИ ДЕНЬГИ) -->
+        <div class="bg-gradient-to-r from-neutral-900 to-neutral-950 border border-emerald-500/30 rounded-xl p-5 bevel-box flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-neutral-200">Тариф снижения издержек</span>
+            </div>
+            <p class="text-xs text-neutral-400">Бесплатный расчетный счет с кэшбэком до 10 000 ₽ на рекламу WB</p>
+          </div>
+          <!-- Сюда вставляется твоя реферальная ссылка из Pampadu -->
+          <a href="https://tinkoff.ru" target="_blank" class="tactile px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-lg shadow-lg shadow-emerald-500/20 whitespace-nowrap">
+            Получить бонус →
+          </a>
+        </div>
+      </div>
+
+      <!-- ПРАВАЯ ЧАСТЬ: ИСПЫТАНИЕ НА ПРОЧНОСТЬ (СТРЕСС-ТЕСТ) -->
+      <div class="lg:col-span-6 space-y-5">
+        
+        <!-- Диагноз жизнеспособности -->
+        <div id="statusCard" class="bg-[var(--panel)] border border-[var(--border)] rounded-xl p-6 bevel-box">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-neutral-400">Инженерный вердикт партии</span>
+            <span id="badgeVerdict" class="text-xs mono-num px-2.5 py-0.5 rounded-full font-bold uppercase"></span>
+          </div>
+
+          <p id="descVerdict" class="text-xs text-neutral-400 leading-relaxed">
+            Анализ устойчивости к рекламным скачкам и штрафам площадки...
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-[var(--border)] text-xs mono-num">
+            <div>
+              <span class="text-neutral-500 block">ROI на вложенное:</span>
+              <strong id="roiValue" class="text-base text-neutral-200 font-bold">0%</strong>
+            </div>
+            <div>
+              <span class="text-neutral-500 block">Предел скидки по акции:</span>
+              <strong id="discountLimit" class="text-base text-neutral-200 font-bold">0 ₽</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- P&L Таблица по стандарту oil-ui -->
+        <div class="bg-[var(--panel)] border border-[var(--border)] rounded-xl overflow-hidden bevel-box">
+          <table class="w-full text-xs text-left">
+            <thead>
+              <tr class="border-b border-[var(--border)] text-neutral-500 font-mono text-[10px] uppercase">
+                <th class="py-3 px-4 font-semibold">Узел расходов</th>
+                <th class="py-3 px-4 font-semibold text-right">На 1 заказ</th>
+                <th class="py-3 px-4 font-semibold text-right">Доля в чеке</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] mono-num text-neutral-300">
+              <tr>
+                <td class="py-2.5 px-4">Себестоимость товара (FOB)</td>
+                <td id="pnlCogs" class="py-2.5 px-4 text-right">0 ₽</td>
+                <td id="pnlCogsPct" class="py-2.5 px-4 text-right text-neutral-500">0%</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4">Комиссия маркетплейса</td>
+                <td id="pnlWb" class="py-2.5 px-4 text-right">0 ₽</td>
+                <td id="pnlWbPct" class="py-2.5 px-4 text-right text-neutral-500">0%</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4">Логистика (прямая + покатушки)</td>
+                <td id="pnlLog" class="py-2.5 px-4 text-right">0 ₽</td>
+                <td id="pnlLogPct" class="py-2.5 px-4 text-right text-neutral-500">0%</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4">Рекламный бюджет (ДРР)</td>
+                <td id="pnlAds" class="py-2.5 px-4 text-right">0 ₽</td>
+                <td id="pnlAdsPct" class="py-2.5 px-4 text-right text-neutral-500">0%</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4">Налог УСН (6%)</td>
+                <td id="pnlTax" class="py-2.5 px-4 text-right">0 ₽</td>
+                <td id="pnlTaxPct" class="py-2.5 px-4 text-right text-neutral-500">0%</td>
+              </tr>
+              <tr class="bg-[#12151b] font-bold text-neutral-100">
+                <td class="py-3 px-4">Чистая прибыль продавца</td>
+                <td id="pnlNet" class="py-3 px-4 text-right text-emerald-400">0 ₽</td>
+                <td id="pnlNetPct" class="py-3 px-4 text-right text-emerald-400">0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-[var(--border)] py-5 text-center text-xs font-mono text-neutral-600">
+    KINETIC ENGINE // Спроектировано по стандартам агентских дизайн-систем
+  </footer>
+
+  <script>
+    let state = {
+      price: 1850,
+      buyout: 82,
+      cogs: 480,
+      comm: 23,
+      baseLog: 85,
+      returnLog: 50,
+      ads: 12,
+      tax: 6,
+      net: 0,
+      margin: 0,
+      breakEven: 0
+    };
+
+    function syncFromSlider(type, val) {
+      if (type === 'price') {
+        state.price = parseFloat(val);
+        document.getElementById('priceValueBadge').innerText = `${state.price.toLocaleString('ru-RU')} ₽`;
+      }
+      if (type === 'buyout') {
+        state.buyout = parseFloat(val);
+        document.getElementById('buyoutValueBadge').innerText = `${state.buyout}%`;
+      }
+      runEngine();
+    }
+
+    function runEngine() {
+      state.cogs = parseFloat(document.getElementById('cogsInput').value) || 0;
+      state.comm = parseFloat(document.getElementById('commInput').value) || 0;
+      state.baseLog = parseFloat(document.getElementById('logInput').value) || 0;
+      state.ads = parseFloat(document.getElementById('adsInput').value) || 0;
+
+      const buyoutRate = Math.max(state.buyout / 100, 0.1);
+      // Реальная формула Wildberries: логистика на один проданный товар с учетом покатушек невыкупа
+      const effectiveLogistics = Math.round(state.baseLog + (state.returnLog * (1 - buyoutRate)) / buyoutRate);
+      
+      const wbFee = Math.round(state.price * (state.comm / 100));
+      const adsFee = Math.round(state.price * (state.ads / 100));
+      const taxFee = Math.round(state.price * (state.tax / 100));
+
+      const totalCosts = state.cogs + wbFee + effectiveLogistics + adsFee + taxFee;
+      state.net = Math.round(state.price - totalCosts);
+      state.margin = state.price > 0 ? Math.round((state.net / state.price) * 100) : 0;
+
+      // Точка безубыточности
+      const variablePerc = (state.comm + state.ads + state.tax) / 100;
+      state.breakEven = variablePerc < 1 ? Math.round((state.cogs + effectiveLogistics) / (1 - variablePerc)) : 0;
+
+      const roi = state.cogs > 0 ? Math.round((state.net / state.cogs) * 100) : 0;
+      const discountLimit = Math.max(state.price - state.breakEven, 0);
+
+      // Обновление верхнего блока
+      document.getElementById('heroPriceDisplay').innerText = `${state.price.toLocaleString('ru-RU')} ₽`;
+      document.getElementById('heroNetDisplay').innerText = `${state.net.toLocaleString('ru-RU')} ₽`;
+      document.getElementById('heroMarginDisplay').innerText = `${state.margin}%`;
+      document.getElementById('heroBreakEvenDisplay').innerText = `${state.breakEven.toLocaleString('ru-RU')} ₽`;
+
+      // Теги
+      document.getElementById('tagCogs').innerText = `${state.cogs} ₽`;
+      document.getElementById('tagWb').innerText = `${wbFee} ₽`;
+      document.getElementById('tagLog').innerText = `${effectiveLogistics} ₽`;
+      document.getElementById('tagAds').innerText = `${adsFee} ₽`;
+      document.getElementById('tagTax').innerText = `${taxFee} ₽`;
+      document.getElementById('tagNet').innerText = `${state.net} ₽`;
+
+      // Пропорции бара
+      if (state.price > 0 && state.net >= 0) {
+        document.getElementById('barCogs').style.width = `${(state.cogs / state.price) * 100}%`;
+        document.getElementById('barWb').style.width = `${(wbFee / state.price) * 100}%`;
+        document.getElementById('barLog').style.width = `${(effectiveLogistics / state.price) * 100}%`;
+        document.getElementById('barAds').style.width = `${(adsFee / state.price) * 100}%`;
+        document.getElementById('barTax').style.width = `${(taxFee / state.price) * 100}%`;
+        document.getElementById('barProfit').style.width = `${(state.net / state.price) * 100}%`;
+      } else {
+        document.getElementById('barCogs').style.width = `100%`;
+        document.getElementById('barWb').style.width = `0%`;
+        document.getElementById('barLog').style.width = `0%`;
+        document.getElementById('barAds').style.width = `0%`;
+        document.getElementById('barTax').style.width = `0%`;
+        document.getElementById('barProfit').style.width = `0%`;
+      }
+
+      // Таблица P&L
+      const pct = val => state.price > 0 ? `${Math.round((val / state.price) * 100)}%` : '0%';
+      document.getElementById('pnlCogs').innerText = `${state.cogs} ₽`;
+      document.getElementById('pnlCogsPct').innerText = pct(state.cogs);
+      document.getElementById('pnlWb').innerText = `${wbFee} ₽`;
+      document.getElementById('pnlWbPct').innerText = pct(wbFee);
+      document.getElementById('pnlLog').innerText = `${effectiveLogistics} ₽`;
+      document.getElementById('pnlLogPct').innerText = pct(effectiveLogistics);
+      document.getElementById('pnlAds').innerText = `${adsFee} ₽`;
+      document.getElementById('pnlAdsPct').innerText = pct(adsFee);
+      document.getElementById('pnlTax').innerText = `${taxFee} ₽`;
+      document.getElementById('pnlTaxPct').innerText = pct(taxFee);
+      document.getElementById('pnlNet').innerText = `${state.net} ₽`;
+      document.getElementById('pnlNetPct').innerText = `${state.margin}%`;
+
+      document.getElementById('roiValue').innerText = `${roi}%`;
+      document.getElementById('discountLimit').innerText = `до ${discountLimit} ₽`;
+
+      // Вердикт
+      const badge = document.getElementById('badgeVerdict');
+      const desc = document.getElementById('descVerdict');
+
+      if (state.net <= 0) {
+        badge.className = "text-xs mono-num px-2.5 py-0.5 rounded-full font-bold uppercase bg-rose-500/10 text-rose-400 border border-rose-500/30";
+        badge.innerText = "КРИТИЧЕСКИЙ УБЫТОК";
+        desc.innerText = "Каждая продажа вымывает оборотные средства. Срочно снижайте себестоимость закупки или повышайте розничную цену.";
+      } else if (state.margin < 15) {
+        badge.className = "text-xs mono-num px-2.5 py-0.5 rounded-full font-bold uppercase bg-amber-500/10 text-amber-400 border border-amber-500/30";
+        badge.innerText = "ЗОНА РИСКА (<15%)";
+        desc.innerText = "Маржа слишком тонкая. Любое принудительное участие в акции WB или падение процента выкупа уведет бизнес в минус.";
+      } else {
+        badge.className = "text-xs mono-num px-2.5 py-0.5 rounded-full font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+        badge.innerText = "СТАБИЛЬНЫЙ ПЛЮС";
+        desc.innerText = "Здоровая экономика партии. Запас прочности позволяет запускать внутреннюю рекламу и участвовать в сезонных распродажах.";
+      }
+    }
+
+    // Рецепт кросс-фейда из jakubkrehel/skills
+    function exportData() {
+      const summary = `KINETIC REPORT\nЦена: ${state.price} ₽ | Выкуп: ${state.buyout}%\nЧистая прибыль: ${state.net} ₽ (${state.margin}%)\nБезубыток: ${state.breakEven} ₽`;
+      navigator.clipboard.writeText(summary).then(() => {
+        const text = document.getElementById('copyText');
+        const icon = document.getElementById('copyIcon');
+        text.innerText = "Скопировано в буфер";
+        icon.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        
+        setTimeout(() => {
+          text.innerText = "Экспорт ведомости";
+          icon.innerHTML = `<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+        }, 2000);
+      });
+    }
+
+    runEngine();
+  </script>
+</body>
+</html>
